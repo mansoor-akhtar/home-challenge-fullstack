@@ -1,0 +1,25 @@
+section.error_page {
+    background-color: #fff;
+  }
+  section.error_page .row {
+    height: 100vh;
+  }
+  section.error_page .error_column {
+    text-align: center;
+  }
+  section.error_page .error_column img {
+    max-width: 369px;
+  }
+  section.error_page .error_column img.img_404 {
+    max-width: 275px;
+  }
+  section.error_page .error_column h1 {
+    color: #FE9920;
+    font-size: 38px;
+    margin: 30px 0 15px;
+  }
+  section.error_page .error_column p {
+    font-size: 16px;
+    font-weight: 400 !important;
+    color: #0C4767;
+  }
