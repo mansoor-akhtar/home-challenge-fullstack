@@ -1,23 +1,20 @@
-# frontend/Dockerfile
+# Use Node.js Alpine base image
+FROM node:alpine
 
-FROM node:16
+# Create and set the working directory inside the container
+WORKDIR /app
 
-# Set the working directory
-WORKDIR /usr/src/app
-
-# Copy package.json and package-lock.json
-COPY package*.json ./
+# Copy package.json and package-lock.json to the working directory
+COPY package.json package-lock.json /app/
 
 # Install dependencies
 RUN npm install
 
-# Copy the rest of the application
-COPY . .
+# Copy the entire codebase to the working directory
+COPY . /app/
 
-# Build the React app
-RUN npm run build
-
-# Expose the port
+# Expose the port your app runs on (replace <PORT_NUMBER> with your app's actual port)
 EXPOSE 3000
 
+# Define the command to start your application (replace "start" with the actual command to start your app)
 CMD ["npm", "start"]

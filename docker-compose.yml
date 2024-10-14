@@ -1,47 +1,37 @@
-version: '3.8'
-
 services:
-  backend:
-    build:
-      context: ./backend
-    volumes:
-      - ./backend:/var/www
-    depends_on:
-      - db
-    environment:
-      DB_CONNECTION: mysql
-      DB_HOST: db
-      DB_PORT: 3306
-      DB_DATABASE: news
-      DB_USERNAME: root
-      DB_PASSWORD: root_password
-    networks:
-      - app-network
 
   frontend:
-    build:
-      context: ./frontend
+    container_name: frontend
+    build: ./frontend
     volumes:
-      - ./frontend:/usr/src/app
+      - './frontend:/app'
+      - './frontend/node_modules:/app/node_modules'
     ports:
-      - "3000:3000"
-    networks:
-      - app-network
-
-  db:
-    image: mysql:5.7
-    restart: always
+      - 3000:3000
+    stdin_open: true
     environment:
-      MYSQL_ROOT_PASSWORD: root_password
-      MYSQL_DATABASE: your_db_name
+      - CHOKIDAR_USEPOLLING=true
+    command: npm start
+
+  backend:
+    container_name: backend
+    build: ./backend
     volumes:
-      - db_data:/var/lib/mysql
-    networks:
-      - app-network
-
-networks:
-  app-network:
-    driver: bridge
-
-volumes:
-  db_data:
+      - ./backend:/var/www/html
+    ports:
+      - 9000:80
+  
+  mysql_db:
+    image: mysql:latest
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: world_news
+    ports:
+    - 3306:3306
+  
+  phpmyadmin:
+    image: phpmyadmin:latest
+    ports:
+      - 9001:80
+    environment:
+      - PMA_ARBITRARY=1
